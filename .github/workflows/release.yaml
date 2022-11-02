@@ -28,6 +28,8 @@ jobs:
       - name: Custom bump versions
         run: |
           sed -i "s/version:.*/version: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/Chart.yaml
+          sed -i "s/appVersion:.*/appVersion: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/Chart.yaml
+          sed -i "s/tag:.*/tag: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/values.yaml
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.1
