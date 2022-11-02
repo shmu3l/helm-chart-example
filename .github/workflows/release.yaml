@@ -25,11 +25,17 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.10.0
-      - name: Custom bump versions
-        run: |
-          sed -i "s/version:.*/version: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/Chart.yaml
-          sed -i "s/appVersion:.*/appVersion: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/Chart.yaml
-          sed -i "s/tag:.*/tag: ${{ github.event.inputs.version }}/g" charts/datree-admission-webhook/values.yaml
+
+      - name: Update version
+        uses: mikefarah/yq@master
+        with:
+          cmd: |
+            ye e -i 'version: {{steps.define_version.outputs.version}}' charts/datree-admission-webhook/Chart.yaml
+
+      - name: Auto commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'build: Automated Change - Bump webhook-image version to ${{ steps.define_version.outputs.version }}'
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.1
