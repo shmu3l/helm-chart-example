@@ -7,8 +7,6 @@ on:
 
 jobs:
   release:
-    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
-    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -27,6 +25,9 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.10.0
+      - name: Custom bump versions
+        run: |
+          sed -i "s/version:.*/version: ${{ github.event.inputs.version }}/g" charts/datree/Chart.yaml
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.1
