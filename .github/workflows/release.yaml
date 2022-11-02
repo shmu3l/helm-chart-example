@@ -30,7 +30,7 @@ jobs:
         uses: mikefarah/yq@master
         with:
           cmd: |
-            ye e -i 'version: {{steps.define_version.outputs.version}}' charts/datree-admission-webhook/Chart.yaml
+            yq e -i 'version: {{steps.define_version.outputs.version}}' charts/datree-admission-webhook/Chart.yaml
 
       - name: Auto commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
