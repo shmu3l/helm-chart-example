@@ -2,4 +2,4 @@ apiVersion: v2
 description: A Helm library chart for Kubernetes
 name: mylibchart-lib
 type: library
-version: 1.0.0
+version: 1.0.1
